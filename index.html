@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WIZZ AIR — Interview Prep Quiz</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">
+      W<span>!</span>ZZ <div class="logo-badge">PREP</div>
+    </div>
+    <div class="header-right">
+      <div class="score-pill" id="headerScore" style="display:none">
+        Score: <span id="headerScoreVal">0/0</span>
+      </div>
+      <button class="btn btn-ghost" id="homeBtn" style="display:none" onclick="goHome()">← Topics</button>
+    </div>
+  </div>
+
+  <div id="topicView">
+    <div class="screen-title">Interview Preparation</div>
+    <div class="screen-sub">
+      Select topics to study • <span id="totalQCount"></span> questions available
+    </div>
+
+    <div class="topic-actions">
+      <button class="btn btn-outline" onclick="selectAll()">Select All</button>
+      <button class="btn btn-outline" onclick="selectNone()">Clear</button>
+    </div>
+
+    <div class="topic-grid" id="topicGrid"></div>
+
+    <div class="start-row">
+      <button class="btn btn-primary" id="startBtn" onclick="startQuiz()">Start Quiz</button>
+
+      <select class="mode-select" id="modeSelect">
+        <option value="sequential">Sequential Order</option>
+        <option value="random" selected>Random Order</option>
+      </select>
+
+      <select class="mode-select" id="qCountSelect">
+        <option value="20">20 Questions</option>
+        <option value="40">40 Questions</option>
+        <option value="60">60 Questions</option>
+        <option value="all">All Questions</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="quizView" style="display:none"></div>
+  <div id="resultsView" style="display:none"></div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
