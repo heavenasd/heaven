@@ -1,6 +1,19 @@
 :root {
   --bg: #0a0e1a;
+  --bg2: #0f1525;
+  --bg3: #141c30;
+  --card: #131928;
+  --border: #1e2d4a;
+  --magenta: #cf2b6e;
+  --magenta2: #e8357e;
+  --magenta-glow: rgba(207,43,110,0.15);
+  --cyan: #00d4ff;
+  --gold: #f0b429;
+  --green: #2ecc71;
+  --red: #e74c3c;
   --text: #e8ecf4;
+  --text-dim: #8899bb;
+  --text-muted: #4a5a7a;
 }
 
 * {
@@ -13,4 +26,12 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
 }
+
+/* keep rest of your CSS EXACTLY the same */
+/* just fix:
+   - var(--...)
+   - quotes
+   - content: ''
+*/
