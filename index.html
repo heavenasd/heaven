@@ -54,8 +54,67 @@
     </div>
   </div>
 
-  <div id="quizView" style="display:none"></div>
-  <div id="resultsView" style="display:none"></div>
+  <div id="quizView">
+    <div class="q-nav-panel">
+      <div class="q-nav-panel-title">Question Navigator</div>
+      <div class="q-nav-grid" id="qNavGrid"></div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-label" id="progressLabel"></div>
+    </div>
+
+    <div class="topic-tag" id="currentTopic"></div>
+
+    <div class="question-card">
+      <div class="q-number" id="qNumber"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div id="explanationBox"></div>
+    </div>
+
+    <div class="quiz-nav">
+      <div class="nav-btns">
+        <button class="btn btn-outline" id="prevBtn" onclick="navigate(-1)">← Prev</button>
+        <button class="btn btn-outline" id="nextBtn" onclick="navigate(1)">Next →</button>
+      </div>
+      <button class="btn btn-primary" id="finishBtn" onclick="finishQuiz()" style="display:none">
+        View Results
+      </button>
+    </div>
+  </div>
+
+  <div id="resultsView">
+    <div class="result-card">
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-label" id="resultLabel"></div>
+
+      <div class="result-stats">
+        <div class="stat">
+          <div class="stat-val green" id="statCorrect"></div>
+          <div class="stat-lbl">Correct</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val red" id="statWrong"></div>
+          <div class="stat-lbl">Wrong</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" id="statTotal" style="color:var(--cyan)"></div>
+          <div class="stat-lbl">Total</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-breakdown" id="topicBreakdown"></div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="goHome()">← Back to Topics</button>
+      <button class="btn btn-outline" onclick="reviewWrong()">Review Wrong Answers</button>
+    </div>
+  </div>
 
 </div>
 
