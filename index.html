@@ -4,47 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WIZZ AIR — Interview Prep Quiz</title>
-
+  <meta name="description" content="Wizz Air pilot interview preparation quiz covering all ATPL subject areas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 <div class="app">
 
-  <div class="header">
-    <div class="logo">
-      W<span>!</span>ZZ <div class="logo-badge">PREP</div>
-    </div>
+  <header class="header">
+    <div class="logo">W<span>!</span>ZZ <div class="logo-badge">PREP</div></div>
     <div class="header-right">
-      <div class="score-pill" id="headerScore" style="display:none">
-        Score: <span id="headerScoreVal">0/0</span>
-      </div>
+      <div class="score-pill" id="headerScore" style="display:none">Score: <span id="headerScoreVal">0/0</span></div>
       <button class="btn btn-ghost" id="homeBtn" style="display:none" onclick="goHome()">← Topics</button>
     </div>
-  </div>
+  </header>
 
+  <!-- TOPIC SELECTION -->
   <div id="topicView">
     <div class="screen-title">Interview Preparation</div>
-    <div class="screen-sub">
-      Select topics to study • <span id="totalQCount"></span> questions available
-    </div>
-
+    <div class="screen-sub">Select topics to study • <span id="totalQCount"></span> questions available</div>
     <div class="topic-actions">
       <button class="btn btn-outline" onclick="selectAll()">Select All</button>
-      <button class="btn btn-outline" onclick="selectNone()">Clear</button>
+      <button class="btn btn-outline" onclick="selectNone()">Clear All</button>
     </div>
-
     <div class="topic-grid" id="topicGrid"></div>
-
     <div class="start-row">
-      <button class="btn btn-primary" id="startBtn" onclick="startQuiz()">Start Quiz</button>
-
+      <button class="btn btn-primary" id="startBtn" onclick="startQuiz()" disabled>Start Quiz</button>
       <select class="mode-select" id="modeSelect">
-        <option value="sequential">Sequential Order</option>
         <option value="random" selected>Random Order</option>
+        <option value="sequential">Sequential Order</option>
       </select>
-
       <select class="mode-select" id="qCountSelect">
         <option value="20">20 Questions</option>
         <option value="40">40 Questions</option>
@@ -54,70 +45,53 @@
     </div>
   </div>
 
-  <div id="quizView">
+  <!-- QUIZ VIEW -->
+  <div id="quizView" style="display:none">
     <div class="q-nav-panel">
       <div class="q-nav-panel-title">Question Navigator</div>
       <div class="q-nav-grid" id="qNavGrid"></div>
     </div>
-
     <div class="progress-bar-wrap">
       <div class="progress-bar-track">
         <div class="progress-bar-fill" id="progressFill"></div>
       </div>
       <div class="progress-label" id="progressLabel"></div>
     </div>
-
     <div class="topic-tag" id="currentTopic"></div>
-
     <div class="question-card">
       <div class="q-number" id="qNumber"></div>
       <div class="q-text" id="qText"></div>
       <div class="options-grid" id="optionsGrid"></div>
       <div id="explanationBox"></div>
     </div>
-
     <div class="quiz-nav">
       <div class="nav-btns">
         <button class="btn btn-outline" id="prevBtn" onclick="navigate(-1)">← Prev</button>
         <button class="btn btn-outline" id="nextBtn" onclick="navigate(1)">Next →</button>
       </div>
-      <button class="btn btn-primary" id="finishBtn" onclick="finishQuiz()" style="display:none">
-        View Results
-      </button>
+      <button class="btn btn-primary" id="finishBtn" onclick="finishQuiz()" style="display:none">View Results</button>
     </div>
   </div>
 
-  <div id="resultsView">
+  <!-- RESULTS VIEW -->
+  <div id="resultsView" style="display:none">
     <div class="result-card">
       <div class="result-score" id="resultScore"></div>
       <div class="result-label" id="resultLabel"></div>
-
       <div class="result-stats">
-        <div class="stat">
-          <div class="stat-val green" id="statCorrect"></div>
-          <div class="stat-lbl">Correct</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val red" id="statWrong"></div>
-          <div class="stat-lbl">Wrong</div>
-        </div>
-        <div class="stat">
-          <div class="stat-val" id="statTotal" style="color:var(--cyan)"></div>
-          <div class="stat-lbl">Total</div>
-        </div>
+        <div class="stat"><div class="stat-val green" id="statCorrect"></div><div class="stat-lbl">Correct</div></div>
+        <div class="stat"><div class="stat-val red"   id="statWrong"></div><div class="stat-lbl">Wrong</div></div>
+        <div class="stat"><div class="stat-val cyan"  id="statTotal"></div><div class="stat-lbl">Total</div></div>
       </div>
     </div>
-
     <div class="topic-breakdown" id="topicBreakdown"></div>
-
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <div class="results-actions">
       <button class="btn btn-primary" onclick="goHome()">← Back to Topics</button>
       <button class="btn btn-outline" onclick="reviewWrong()">Review Wrong Answers</button>
     </div>
   </div>
 
 </div>
-
-<script src="script.js"></script>
+<script src="quiz.js"></script>
 </body>
 </html>
