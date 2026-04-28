@@ -8,16 +8,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0c10;
-    --surface: #111318;
-    --surface2: #181c24;
-    --border: #1e2330;
-    --accent: #00c6ff;
-    --accent2: #ff6b35;
-    --accent3: #a8ff78;
-    --text: #e8eaf0;
-    --muted: #5a6070;
-    --warn: #ffb830;
+    --bg: #000000;
+    --surface: #0c0e12;
+    --surface2: #111418;
+    --border: #1a1e28;
+    --accent: #00d4ff;
+    --accent2: #ff5c1a;
+    --accent3: #7dff5a;
+    --text: #f0f2f8;
+    --muted: #4a5265;
+    --warn: #ffbe00;
   }
 
 - { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,15 +31,15 @@ min-height: 100vh;
 overflow-x: hidden;
 }
 
-/* BG grid */
+/* BG grid — subtler on true black */
 body::before {
 content: ‘’;
 position: fixed;
 inset: 0;
 background-image:
-linear-gradient(rgba(0,198,255,0.03) 1px, transparent 1px),
-linear-gradient(90deg, rgba(0,198,255,0.03) 1px, transparent 1px);
-background-size: 40px 40px;
+linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+background-size: 44px 44px;
 pointer-events: none;
 z-index: 0;
 }
@@ -593,27 +593,38 @@ position: relative;
 .streak-day.filled {
 background: var(–accent);
 border-color: var(–accent);
-opacity: 0.9;
+opacity: 0.95;
 }
 
 .streak-day.partial {
-background: rgba(0,198,255,0.3);
-border-color: rgba(0,198,255,0.4);
+background: rgba(0,212,255,0.28);
+border-color: rgba(0,212,255,0.4);
+}
+
+.streak-day.future {
+opacity: 0.2;
+cursor: default;
+}
+
+.streak-day.today-dot {
+border-color: var(–accent);
+box-shadow: 0 0 0 1px var(–accent);
 }
 
 .streak-month {
 font-family: ‘DM Mono’, monospace;
-font-size: 10px;
+font-size: 11px;
 color: var(–muted);
-margin-right: 6px;
-width: 24px;
+margin-right: 10px;
+width: 28px;
+flex-shrink: 0;
 display: inline-block;
 }
 
 .streak-row {
 display: flex;
-align-items: center;
-margin-bottom: 4px;
+align-items: flex-start;
+margin-bottom: 10px;
 }
 
 /* Alert box */
@@ -890,7 +901,7 @@ pointer-events: none;
       <div class="section-icon">🔥</div>
       <div>
         <div class="section-title">Consistency Tracker</div>
-        <div class="section-desc">Click a day to mark it. Green = full day (gym + study + something aviation-related). Partial = at least one habit done.</div>
+        <div class="section-desc">Click a day to mark it. Green = full day (gym + study + something aviation-related). Partial = at least one habit done. Tracking May → December 2026. Future days are greyed out.</div>
       </div>
     </div>
 
@@ -1268,25 +1279,36 @@ function addJournalEntry() {
 function renderStreak() {
   const el = document.getElementById('streak-calendar');
   const today = new Date();
+  const YEAR = 2026;
+  const START_MONTH = 4; // May
+  const END_MONTH = 11;  // December
   const months = [];
-  for (let m = 0; m < 6; m++) {
-    const d = new Date(today.getFullYear(), today.getMonth() - 5 + m, 1);
-    months.push(d);
+  for (let m = START_MONTH; m <= END_MONTH; m++) {
+    months.push(new Date(YEAR, m, 1));
   }
-
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   el.innerHTML = months.map(month => {
-    const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
-    const mLabel = month.toLocaleDateString('en-GB', { month:'short' });
+    const yr = month.getFullYear();
+    const mo = month.getMonth();
+    const days = new Date(yr, mo + 1, 0).getDate();
+    const mLabel = monthNames[mo];
+    const isCurrentMonth = today.getFullYear() === yr && today.getMonth() === mo;
+    const todayDay = today.getDate();
     const cells = Array.from({ length: days }, (_, i) => {
       const day = i + 1;
-      const key = `${month.getFullYear()}-${month.getMonth()}-${day}`;
+      const key = `${yr}-${mo}-${day}`;
       const val = state.streak[key] || 0;
-      return `<div class="streak-day ${val === 2 ? 'filled' : val === 1 ? 'partial' : ''}"
-        onclick="cycleStreak('${key}')" title="${mLabel} ${day}"></div>`;
+      const isFuture = (yr > today.getFullYear()) ||
+        (yr === today.getFullYear() && mo > today.getMonth()) ||
+        (isCurrentMonth && day > todayDay);
+      const isToday = isCurrentMonth && day === todayDay;
+      const clickHandler = isFuture ? '' : `cycleStreak('${key}')`;
+      return `<div class="streak-day ${val===2?'filled':val===1?'partial':''} ${isFuture?'future':''} ${isToday?'today-dot':''}"
+        onclick="${clickHandler}" title="${mLabel} ${day}"></div>`;
     }).join('');
-    return `<div class="streak-row" style="margin-bottom:8px">
-      <span class="streak-month">${mLabel}</span>
-      <div class="streak-grid" style="display:flex;flex-wrap:wrap;gap:3px">${cells}</div>
+    return `<div class="streak-row">
+      <span class="streak-month" style="${isCurrentMonth?'color:var(--accent);font-weight:600':''}">${mLabel}</span>
+      <div style="flex:1"><div style="display:flex;flex-wrap:wrap;gap:3px">${cells}</div></div>
     </div>`;
   }).join('');
 }
